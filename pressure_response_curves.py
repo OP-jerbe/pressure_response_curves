@@ -83,7 +83,7 @@ def plot_button_click():
 
 
 # Function to handle export timestamps button click event
-def export_button_click():
+def export_button_click() -> None:
     with filedialog.asksaveasfile(mode='w', defaultextension='.txt') as file:
         if file:
             file.write(f'Data File Location: {file_entry.get()}\n\n')
