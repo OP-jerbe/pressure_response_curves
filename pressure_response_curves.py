@@ -96,7 +96,7 @@ def export_button_click() -> None:
 
 
 # Function to add a new row of start and end time entry boxes
-def add_time_window():
+def add_time_window() -> None:
     start_var = tk.StringVar()
     start_time_entry = ttk.Entry(time_frame, width=20, textvariable=start_var)
     start_time_entry.grid(
