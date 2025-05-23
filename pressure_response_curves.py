@@ -15,10 +15,12 @@ import pandas as pd
 
 
 # Function to load and concatenate multiple CSV files
-def load_data(file_pattern):
-    files = glob.glob(file_pattern)  # Find all files matching the pattern
-    df_list = [pd.read_csv(file) for file in files]  # Read each file into a DataFrame
-    concatenated_df = pd.concat(
+def load_data(file_pattern: str) -> pd.DataFrame:
+    files: list[str] = glob.glob(file_pattern)  # Find all files matching the pattern
+    df_list: list[pd.DataFrame] = [
+        pd.read_csv(file) for file in files
+    ]  # Read each file into a DataFrame
+    concatenated_df: pd.DataFrame = pd.concat(
         df_list, ignore_index=True
     )  # Concatenate all DataFrames
     concatenated_df['Time'] = pd.to_datetime(
@@ -28,7 +30,12 @@ def load_data(file_pattern):
 
 
 # Function to plot data for different time windows
-def plot_multi_time_windows(data, time_windows, y_column, invert_y):
+def plot_multi_time_windows(
+    data: pd.DataFrame,
+    time_windows: list[tuple[datetime, datetime, str]],
+    y_column: str,
+    invert_y: bool,
+) -> None:
     fig = plt.figure(figsize=(10, 6))
     for window in time_windows:
         start_time, end_time, legend_label = window
@@ -54,7 +61,7 @@ def plot_multi_time_windows(data, time_windows, y_column, invert_y):
 
 
 # Function to handle button click event
-def plot_button_click():
+def plot_button_click() -> None:
     file_pattern = file_entry.get()
     try:
         data = load_data(file_pattern)
@@ -123,7 +130,7 @@ def add_time_window() -> None:
     legend_widgets.append(legend_entry)
 
 
-def remove_time_window():
+def remove_time_window() -> None:
     if start_times:
         start_time_widgets.pop().destroy()
         start_times.pop()
@@ -136,7 +143,7 @@ def remove_time_window():
 
 
 # Function to handle browse button click event
-def browse_button_click():
+def browse_button_click() -> None:
     directory = filedialog.askdirectory()
     if directory:
         file_entry.delete(0, tk.END)
@@ -145,7 +152,7 @@ def browse_button_click():
 
 
 # Function to update the options in the y-axis variable dropdown box
-def update_y_variable_options(directory):
+def update_y_variable_options(directory) -> None:
     files = glob.glob(directory + '/*.csv')
     if files:
         data = pd.read_csv(files[0])
