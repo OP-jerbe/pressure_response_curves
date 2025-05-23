@@ -84,8 +84,9 @@ def plot_button_click():
 
 # Function to handle export timestamps button click event
 def export_button_click() -> None:
-    with filedialog.asksaveasfile(mode='w', defaultextension='.txt') as file:
-        if file:
+    file = filedialog.asksaveasfile(mode='w', defaultextension='.txt')
+    if file:
+        with file:
             file.write(f'Data File Location: {file_entry.get()}\n\n')
             file.write(f'Title: {plot_title_var.get()}\n\n')
             file.write('Start Datetime\t\tEnd Datetime\t\tLabel\n')
@@ -137,9 +138,10 @@ def remove_time_window():
 # Function to handle browse button click event
 def browse_button_click():
     directory = filedialog.askdirectory()
-    file_entry.delete(0, tk.END)
-    file_entry.insert(0, directory + '/*.csv')
-    update_y_variable_options(directory)
+    if directory:
+        file_entry.delete(0, tk.END)
+        file_entry.insert(0, directory + '/*.csv')
+        update_y_variable_options(directory)
 
 
 # Function to update the options in the y-axis variable dropdown box
